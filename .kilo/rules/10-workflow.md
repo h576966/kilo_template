@@ -2,8 +2,8 @@
 
 ## Phase 1: Plan → Gate: Plan Approved
 
-1. Use `/plan` or switch to the **architect** agent.
-2. The architect produces a structured plan.
+1. Use `/plan` or switch to the **plan** agent.
+2. The plan agent produces a structured plan.
 3. Review the plan before approving.
 4. **Gate:** All implementation steps are specific enough to execute without ambiguity.
 
@@ -24,6 +24,6 @@
 After 2 failed attempts with the same approach:
 
 1. **Worker:** Escalate to a stronger model.
-2. **Reviewer:** Revisit the plan with the architect.
-3. **Architect:** Ask for clarification — requirements are likely unclear.
+2. **Reviewer:** Revisit the plan with the plan agent.
+3. **Plan:** Ask for clarification — requirements are likely unclear.
 

@@ -11,11 +11,11 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
 ├── .gitignore
 └── .kilo/
     ├── agents/
-    │   ├── architect.md            # Primary: system design & planning (v4-pro)
+    │   ├── plan.md                 # Primary: system design & planning (v4-pro)
     │   ├── reviewer.md             # Subagent: code review, read-only (v4-pro)
     │   └── worker.md               # Subagent: implementation (v4-flash)
     ├── commands/
-    │   ├── plan.md                 # /plan → architect agent
+    │   ├── plan.md                 # /plan → plan agent
     │   └── review.md               # /review → reviewer agent
     └── skills/
         └── example/SKILL.md        # Example stub — replace with project-specific skills
@@ -27,14 +27,14 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
 ## Workflow
 
 ```
-/plan → architect designs → plan approved
+/plan → plan agent designs → plan approved
   → worker implements each step → lint + tests pass
     → /review → reviewer inspects diff → no CRITICAL issues
       → commit
 ```
 
 ### Phase 1: Plan (`/plan`)
-The architect agent analyzes requirements, reads the codebase, and produces a structured plan with context, approach, implementation steps, and risks. No code is written until the plan is approved.
+The plan agent analyzes requirements, reads the codebase, and produces a structured plan with context, approach, implementation steps, and risks. No code is written until the plan is approved.
 
 ### Phase 2: Execute (worker agent)
 For each step in the plan, delegate to the worker. The worker reads relevant files, implements the change with a minimal diff, and **must** pass linting and tests before reporting done. If it fails to fix issues after 2 attempts, it escalates.
@@ -59,7 +59,7 @@ Skills encode project-specific patterns the LLM doesn't already know: non-standa
 
 1. Copy this template into your project root.
 2. Run `kilo` in the project directory. Agents, rules, and commands load automatically.
-3. Type `/plan` to start the architect, or `/review` to review changes.
+3. Type `/plan` to start the plan agent, or `/review` to review changes.
 4. For implementation, delegate to the worker agent via the Task tool.
 
 ## Requirements

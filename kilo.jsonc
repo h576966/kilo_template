@@ -1,7 +1,7 @@
 {
   "$schema": "https://app.kilo.ai/config.json",
 
-  // Default models — architect/reviewer use v4-pro (reasoning), worker uses v4-flash (fast)
+  // Default models — plan/reviewer use v4-pro (reasoning), worker uses v4-flash (fast)
   "model": "deepseek/deepseek-v4-pro",
   "small_model": "deepseek/deepseek-v4-flash",
 

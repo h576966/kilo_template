@@ -1,6 +1,6 @@
 ---
-description: Route to the architect agent for system design and planning
-agent: architect
+description: Route to the plan agent for system design and planning
+agent: plan
 ---
 
-Describe what you need planned. The architect will analyze the codebase and produce a structured plan.
+Describe what you need planned.

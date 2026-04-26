@@ -4,7 +4,7 @@ Local-first agentic development with a structured Plan → Execute → Review wo
 
 ## Workflow
 
-1. **Plan** — `/plan` or switch to the architect agent for design and architecture. Never code first.
+1. **Plan** — `/plan` or switch to the plan agent for design and architecture. Never code first.
 2. **Execute** — Delegate implementation steps to the worker agent. One step at a time.
 3. **Review** — `/review` after every meaningful change. Address CRITICAL issues before proceeding.
 
@@ -12,7 +12,7 @@ Local-first agentic development with a structured Plan → Execute → Review wo
 
 | Agent | Mode | Model | Use for |
 |-------|------|-------|---------|
-| architect | primary | deepseek-v4-pro | System design, architecture, planning |
+| plan | primary | deepseek-v4-pro | System design, architecture, planning |
 | reviewer | subagent | deepseek-v4-pro | Code review (read-only) |
 | worker | subagent | deepseek-v4-flash | Implementation of defined tasks |
 

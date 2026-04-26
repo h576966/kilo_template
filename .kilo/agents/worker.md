@@ -1,5 +1,5 @@
 ---
-description: Implementation of well-defined tasks following the architect's plan. Use for the Execute phase.
+description: Implementation of well-defined tasks following the plan. Use for the Execute phase.
 mode: subagent
 model: deepseek/deepseek-v4-flash
 steps: 35
