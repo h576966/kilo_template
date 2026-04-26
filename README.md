@@ -57,22 +57,23 @@ Switch to the Ask agent for code explanation, research, and general technical qu
 - **Escalation policy** — After 2 failed attempts, escalate to a stronger model. No infinite retry loops.
 - **Explicit instruction order** — `kilo.jsonc` lists instruction files explicitly rather than using globs, ensuring determinism.
 
-## Adding Ask to Another Project
+## Using This Template
 
-The Ask agent is a standalone component. To add it to an existing Kilo project:
+To use this template as the foundation for a new project:
 
-1. Copy `.kilo/agents/ask.md` into your project's `.kilo/agents/` directory.
-2. Add the model entry to `kilo.jsonc` in the `agent` block between `plan` and `reviewer`:
-   ```jsonc
-   "ask": { "model": "deepseek/deepseek-v4-flash" },
+1. **Copy the template** into your project root:
    ```
-3. Add the Ask row to your `AGENTS.md` agent table:
-   ```markdown
-   | ask | primary | deepseek-v4-flash | Code explanation, questions, research |
+   git clone https://github.com/h576966/kilo_template.git temp
+   xcopy temp\* .\ /E /H /Y
+   rmdir temp /s /q
    ```
-4. Restart Kilo — the Ask agent will appear in the agent selector.
-
-No command file or additional permissions are needed. Ask is invoked by switching agents via the selector, not by a `/ask` command. Users ask questions directly to the Ask agent.
+   Or copy the files manually — the only required files are `kilo.jsonc`, `AGENTS.md`, and the `.kilo/` directory.
+2. **Remove the template's git history** if you cloned it — delete `.git` and run `git init`.
+3. **Customize models** in `kilo.jsonc` — set your preferred provider and models in the `model`, `small_model`, and `agent` blocks.
+4. **Update `AGENTS.md`** — adjust the project description and workflow to match your project. The agent table should reflect which agents and models you use.
+5. **Replace the example skill** — delete `.kilo/skills/example/` and add your own project-specific skills.
+6. **Review the rules** — `.kilo/rules/00-conventions.md` defines coding standards; `.kilo/rules/10-workflow.md` defines the development process. Customize these for your stack.
+7. **Run `kilo`** in the project directory — agents, rules, and commands load automatically. Type `/plan` to start planning.
 
 ## Skills
 
@@ -80,10 +81,11 @@ Skills encode project-specific patterns the LLM doesn't already know: non-standa
 
 ## Getting Started
 
-1. Copy this template into your project root.
-2. Run `kilo` in the project directory. Agents, rules, and commands load automatically.
-3. Type `/plan` to start the plan agent, `/review` to review changes, or switch to the Ask agent for questions and code explanation.
-4. For implementation, delegate to the worker agent via the Task tool.
+After setting up the template (see [Using This Template](#using-this-template)):
+
+1. Run `kilo` in the project directory. Agents, rules, and commands load automatically.
+2. Type `/plan` to start the plan agent, `/review` to review changes, or switch to the Ask agent for questions and code explanation.
+3. For implementation, delegate to the worker agent via the Task tool.
 
 ## Requirements
 
