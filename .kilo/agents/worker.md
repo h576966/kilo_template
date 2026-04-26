@@ -1,7 +1,6 @@
 ---
 description: Implementation of well-defined tasks following the plan. Use for the Execute phase.
 mode: subagent
-model: deepseek/deepseek-v4-flash
 steps: 35
 hidden: false
 color: "#F59E0B"

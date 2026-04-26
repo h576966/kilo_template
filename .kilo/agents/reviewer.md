@@ -1,7 +1,6 @@
 ---
 description: Code review, bug detection, style checking. Use after implementation changes are made.
 mode: subagent
-model: deepseek/deepseek-v4-pro
 steps: 25
 hidden: false
 color: "#10B981"
