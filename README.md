@@ -17,11 +17,8 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
     ├── commands/
     │   ├── plan.md                 # /plan → architect agent
     │   └── review.md               # /review → reviewer agent
-    ├── skills/
-    │   ├── implementation/SKILL.md # Feature implementation guide
-    │   ├── debugging/SKILL.md      # Systematic debugging approach
-    │   ├── testing/SKILL.md        # Testing strategy
-    │   └── review/SKILL.md         # Code review checklist
+    └── skills/
+        └── example/SKILL.md        # Example stub — replace with project-specific skills
     └── rules/
         ├── 00-conventions.md       # Coding standards (loaded first)
         └── 10-workflow.md          # Dev process with verification gates
@@ -56,12 +53,7 @@ The reviewer agent (read-only) inspects the diff for correctness, security, edge
 
 ## Skills
 
-| Skill | Use when |
-|-------|----------|
-| `/skill implementation` | Translating plan steps into working code |
-| `/skill debugging` | Isolating and fixing a bug |
-| `/skill testing` | Writing or running tests |
-| `/skill review` | Conducting a thorough code review |
+Skills encode project-specific patterns the LLM doesn't already know: non-standard architecture, migration steps, deploy flows, domain knowledge. An example stub is provided in `.kilo/skills/example/`. Skip generic skills (debugging, TDD, review) — the LLM already knows those.
 
 ## Getting Started
 
@@ -78,6 +70,6 @@ The reviewer agent (read-only) inspects the diff for correctness, security, edge
 ## Philosophy
 
 - **Local-first** — Everything lives in your repo. No external services beyond the LLM API.
-- **Minimal** — Three agents, four skills, two rules, two commands. No frameworks, no abstractions.
+- **Minimal** — Three agents, one skill stub, two rules, two commands. No frameworks, no abstractions.
 - **Verified** — Every phase has a non-negotiable quality gate. Nothing ships unverified.
 - **Convention over configuration** — Follow existing patterns. Don't invent new ones without reason.

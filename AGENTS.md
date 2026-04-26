@@ -18,11 +18,7 @@ Local-first agentic development with a structured Plan → Execute → Review wo
 
 ## Skills
 
-Load via `/skill <name>` when you need specialized guidance:
-- `implementation` — Translating plan steps into working code
-- `debugging` — Systematic bug isolation and fixing
-- `testing` — Writing and running tests
-- `review` — Code review checklist
+Add project-specific skills to `.kilo/skills/`. Each skill is a directory with a `SKILL.md` file. The directory name becomes the skill identifier (`/skill <name>`). Skills should encode patterns the LLM cannot infer from your codebase — skip anything generic (debugging, TDD, code review). An example stub is provided in `.kilo/skills/example/`.
 
 ## Do NOT
 
