@@ -87,6 +87,16 @@ After setting up the template (see [Using This Template](#using-this-template)):
 2. Type `/plan` to start the plan agent, `/review` to review changes, or switch to the Ask agent for questions and code explanation.
 3. For implementation, delegate to the worker agent via the Task tool.
 
+## Testing
+
+Run the template validation suite to verify all config, agent, command, and documentation are consistent:
+
+```
+node tests/validate.mjs
+```
+
+The script checks: `kilo.jsonc` validity, agent frontmatter fields, cross-references between config/files/table/tree, command-agent linkage, rule file existence, and README consistency. Zero dependencies — uses only Node.js built-in modules.
+
 ## Requirements
 
 - [Kilo Code CLI](https://kilo.ai) installed
