@@ -1,7 +1,6 @@
 ---
 description: High-level system design, architecture decisions, and planning. Use for the Plan phase before any code is written.
 mode: primary
-model: deepseek/deepseek-v4-pro
 steps: 30
 color: "#6366F1"
 ---

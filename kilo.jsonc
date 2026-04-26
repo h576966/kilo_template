@@ -1,7 +1,7 @@
 {
   "$schema": "https://app.kilo.ai/config.json",
 
-  // Default models — plan/reviewer use v4-pro (reasoning), worker uses v4-flash (fast)
+  // ⬇ Change models here — plan and reviewer inherit "model"; worker, compaction, explore use flash
   "model": "deepseek/deepseek-v4-pro",
   "small_model": "deepseek/deepseek-v4-flash",
 
@@ -11,15 +11,11 @@
     ".kilo/rules/10-workflow.md"
   ],
 
-  // Use V4 Flash for context compaction summaries — saves ~92% per compaction vs V4 Pro
+  // Agent models — only needed when different from "model" above
   "agent": {
-    "compaction": {
-      "model": "deepseek/deepseek-v4-flash"
-    },
-    // Use V4 Flash for the explore subagent — codebase exploration is pattern matching, not reasoning
-    "explore": {
-      "model": "deepseek/deepseek-v4-flash"
-    }
+    "worker": { "model": "deepseek/deepseek-v4-flash" },
+    "compaction": { "model": "deepseek/deepseek-v4-flash" },
+    "explore": { "model": "deepseek/deepseek-v4-flash" }
   },
 
   // Permissions — bash is allowed for running lint, tests, and build commands

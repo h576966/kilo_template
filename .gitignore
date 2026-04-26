@@ -1,6 +1,17 @@
 # Dependencies
 node_modules/
 
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# Swift
+.build/
+DerivedData/
+*.app
+
 # Build output
 dist/
 build/
