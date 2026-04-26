@@ -22,13 +22,6 @@ End-to-end process with verification gates at each phase. No phase is complete u
 3. INFO issues are optional.
 4. **Gate:** No CRITICAL issues remain. WARNING issues are either fixed or documented.
 
-## Phase 4: Finalize → Gate: Clean Diff
-
-1. Verify the full test suite passes and linting is clean.
-2. Review the complete diff one final time.
-3. Commit with a descriptive conventional commit message: `type(scope): description`.
-4. Push when ready.
-
 ## Escalation Policy
 
 If any agent fails to complete its task after **2 attempts** with the same approach:
@@ -42,4 +35,4 @@ If any agent fails to complete its task after **2 attempts** with the same appro
 - For obviously trivial changes (typo, single-line fix), skip the architect. Use judgment.
 - The reviewer is most valuable for non-trivial diffs. Skip it for single-line fixes.
 - Save work regularly. Git snapshots (`snapshot: true` in kilo.jsonc) let you roll back.
-- After 2 failed fix attempts, escalate. Infinite retries are a waste of tokens.
+

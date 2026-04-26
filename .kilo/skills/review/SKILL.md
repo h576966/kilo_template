@@ -5,7 +5,7 @@ description: Code review checklist and standards. Use before merging or after si
 
 # Review Skill
 
-Code review standards and checklist.
+Self-review checklist — use before submitting your work to the reviewer agent.
 
 ## Review Checklist
 

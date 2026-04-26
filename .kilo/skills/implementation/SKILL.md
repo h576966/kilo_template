@@ -29,11 +29,6 @@ Guide for implementing features in this project.
 - Run existing tests. Fix any failures before proceeding.
 - Manually verify the change behaves correctly if a test isn't practical.
 
-### 5. Commit
-- Use conventional commit messages: `type(scope): description`
-- Types: feat, fix, refactor, test, docs, chore
-- Keep commits focused — one logical change per commit.
-
 ## Common Patterns
 
 - Look at neighboring files for patterns before creating new abstractions.

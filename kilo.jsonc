@@ -11,6 +11,17 @@
     ".kilo/rules/10-workflow.md"
   ],
 
+  // Use V4 Flash for context compaction summaries — saves ~92% per compaction vs V4 Pro
+  "agent": {
+    "compaction": {
+      "model": "deepseek/deepseek-v4-flash"
+    },
+    // Use V4 Flash for the explore subagent — codebase exploration is pattern matching, not reasoning
+    "explore": {
+      "model": "deepseek/deepseek-v4-flash"
+    }
+  },
+
   // Permissions — bash is allowed for running lint, tests, and build commands
   "permission": {
     "bash": "allow"
