@@ -23,11 +23,7 @@ Add project-specific skills to `.kilo/skills/`. Each skill is a directory with a
 ## Do NOT
 
 - **Do not jump to implementation without a plan.** Non-trivial changes require a written plan first.
-- **Do not add dependencies or libraries without discussion.** Use what's already in the project.
-- **Do not refactor unrelated code.** Changes must be scoped to the task at hand.
-- **Do not leave debug logs, TODO comments, or commented-out code.** Remove them before reporting done.
-- **Do not skip linting, type-checking, or tests.** Work is not done until all three pass.
-
-## Verification
-
-Every change must pass: lint → typecheck → tests. If any fail, fix them before reporting completion. If you can't fix a failure after 2 attempts, escalate — do not attempt a third time with the same approach.
+- **Do not add dependencies or libraries without discussion.**
+- **Do not refactor unrelated code.**
+- **Do not leave debug logs, TODO comments, or commented-out code.**
+- **Do not skip linting, type-checking, or tests.** Work is not done until all three pass. After 2 failed fix attempts, escalate.
