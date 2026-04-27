@@ -21,9 +21,11 @@
 
 ## Escalation Policy
 
+Escalation is triggered by external, observable signals — never by AI self-assessment.
+
 After 2 failed attempts with the same approach:
 
-1. **Worker:** Escalate to a stronger model.
-2. **Reviewer:** Revisit the plan with the plan agent.
-3. **Plan:** Ask for clarification — requirements are likely unclear.
+1. **Worker:** Reports the failure with exact error and what was tried. Do NOT auto-escalate to a different model. The user (or plan agent) decides: escalate to `deepseek/deepseek-v4-pro`, re-plan, or take manual action.
+2. **Reviewer:** If CRITICAL issues persist after 2 fix-attempt cycles, revisit the plan with the plan agent.
+3. **Plan:** If requirements are still unclear, ask for clarification.
 

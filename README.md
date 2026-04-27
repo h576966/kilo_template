@@ -13,7 +13,7 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
     ├── agents/
     │   ├── plan.md                 # Primary: system design & planning (v4-pro)
     │   ├── ask.md                  # Primary: code explanation, research (v4-flash)
-    │   ├── reviewer.md             # Subagent: code review, read-only (v4-pro)
+    │   ├── reviewer.md             # Subagent: code review, read-only (v4-flash)
     │   └── worker.md               # Subagent: implementation (v4-flash)
     ├── commands/
     │   ├── plan.md                 # /plan → plan agent
@@ -50,11 +50,13 @@ Switch to the Ask agent for code explanation, research, and general technical qu
 
 - **Read-only Ask** — The Ask agent has explicit tool boundaries with anti-workaround rules (`echo >`, `gh`, `github_*` bypasses are explicitly forbidden). It uses V4 Flash because Q&A and code explanation don't require deep reasoning. If the user asks for modifications, Ask explains its limitation and suggests switching agents.
 
+- **Model tier strategy** — V4 Pro is reserved for architecture reasoning (plan). All other agents use V4 Flash: reviewer (code review), worker (implementation), ask (Q&A), compaction and explore (internal). If Flash fails on a complex step twice, the worker reports the failure rather than auto-escalating — switching to Pro is a human decision. This keeps the day-to-day cost low while preserving Pro as a deliberate safety net.
+
 - **JSONC config** — `kilo.jsonc` supports comments, making the config self-documenting for template users.
 - **Numbered rules** — `00-conventions.md` and `10-workflow.md` load in predictable order. No ambiguity from glob patterns.
 - **Read-only reviewer** — The reviewer agent has `edit: deny` and `bash: ask`. It cannot accidentally modify code.
 - **Verification gates** — Every phase has a non-negotiable checkpoint. Work is not done until lint, typecheck, and tests pass.
-- **Escalation policy** — After 2 failed attempts, escalate to a stronger model. No infinite retry loops.
+- **Escalation policy** — After 2 failed attempts, the worker reports the failure and stops. Escalation to V4 Pro is a human decision — AI never auto-switches models. This prevents retry loops on wrong-model solutions.
 - **Explicit instruction order** — `kilo.jsonc` lists instruction files explicitly rather than using globs, ensuring determinism.
 
 ## Using This Template

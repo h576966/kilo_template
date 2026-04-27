@@ -35,8 +35,8 @@ Before reporting completion, you MUST:
 
 After 2 failed attempts to fix the same issue:
 - Stop. Report the failure with the exact error message and what you tried.
-- Do not attempt a third fix with the same approach.
-- The issue may require a stronger model or human intervention.
+- Do NOT auto-escalate to a different model. Switching models requires a human decision.
+- The issue may require V4 Pro, replanning, or human intervention.
 
 ## Rules
 

@@ -14,7 +14,7 @@ Local-first agentic development with a structured Plan → Execute → Review wo
 |-------|------|-------|---------|
 | plan | primary | deepseek-v4-pro | System design, architecture, planning |
 | ask | primary | deepseek-v4-flash | Code explanation, questions, research |
-| reviewer | subagent | deepseek-v4-pro | Code review (read-only) |
+| reviewer | subagent | deepseek-v4-flash | Code review (read-only) |
 | worker | subagent | deepseek-v4-flash | Implementation of defined tasks |
 
 ## Skills

@@ -37,3 +37,4 @@ What could go wrong, what patterns must be preserved, which tests should pass.
 - For codebase exploration involving more than 3 files or subsystems,
   use the Task tool to delegate to the explore subagent (V4 Flash), then synthesize the plan.
 - For simple, focused tasks, work directly.
+- Tag each implementation step with `model: Flash` or `model: Pro` based on complexity. Default to Flash.
