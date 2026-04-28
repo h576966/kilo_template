@@ -1,6 +1,6 @@
 # Kilo Code Project Template
 
-A minimal, local-first agentic development template for [Kilo Code](https://kilo.ai). Structured Plan → Execute → Review workflow with DeepSeek-powered agents, plus fast-path `/patch` and `/debug` routes for small edits and failure triage.
+A minimal, local-first agentic development template for [Kilo Code](https://kilo.ai). Structured Plan → Execute → Review workflow with DeepSeek-powered agents, plus fast-path `/patch` and `/debug` routes for small edits and failure triage, plus `/ship` for final commit+push quality gating in solo workflows.
 
 ## Directory Structure
 
@@ -18,12 +18,14 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
     │   ├── reviewer.md
     │   ├── worker.md
     │   ├── flash-patch.md
-    │   └── flash-debug.md
+    │   ├── flash-debug.md
+    │   └── ship.md
     ├── commands/
     │   ├── plan.md                 # /plan → plan agent
     │   ├── review.md               # /review → reviewer agent
     │   ├── patch.md                # /patch → flash-patch agent
-    │   └── debug.md                # /debug → flash-debug agent
+    │   ├── debug.md                # /debug → flash-debug agent
+    │   └── ship.md                 # /ship → ship agent
     ├── skills/
     │   └── example/SKILL.md
     └── rules/
@@ -47,6 +49,9 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
 
 /debug → flash-debug reproduces failure from provided command/error output
   → applies fix and reruns explicit verification command(s) with passing output
+
+/ship → ship reviews final diff and verification status
+  → recommends commit message and returns push readiness (`ready` or `blocked`)
 ```
 
 ### Phase 1: Plan (`/plan`)
@@ -100,7 +105,7 @@ Run the template validation suite:
 node tests/validate.mjs
 ```
 
-Checks: `kilo.jsonc` validity, agent frontmatter, cross-references between config/files/table/tree, command-agent linkage, rule file existence, activated rules, and README consistency. Zero dependencies — uses only Node.js built-in modules.
+Checks: `kilo.jsonc` validity, agent frontmatter, cross-references between config/files/table/tree, command-agent linkage, rule file existence, activated rules, agent prompt quality, and README consistency. Zero dependencies — uses only Node.js built-in modules.
 
 ## Requirements
 
@@ -110,6 +115,6 @@ Checks: `kilo.jsonc` validity, agent frontmatter, cross-references between confi
 ## Philosophy
 
 - **Local-first** — Everything lives in your repo. No external services beyond the LLM API.
-- **Minimal** — Six focused agents, one skill stub, two base rules, three path-scoped rules, four commands. No frameworks, no abstractions.
+- **Minimal** — Seven focused agents, one skill stub, two base rules, three path-scoped rules, five commands. No frameworks, no abstractions.
 - **Verified** — Every phase has a non-negotiable quality gate. Nothing ships unverified.
 - **Convention over configuration** — Follow existing patterns. Don't invent new ones without reason.

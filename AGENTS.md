@@ -9,6 +9,7 @@ Local-first agentic development with a structured Plan → Execute → Review wo
 3. **Debug** — Use `/debug` (flash-debug agent) when something is failing and you can provide the failing command and error output, plus the command/output expected after the fix.
 4. **Execute** — Delegate implementation steps to the worker agent. One step at a time.
 5. **Review** — `/review` after every meaningful change. Address CRITICAL issues before proceeding.
+6. **Ship** — Use `/ship` (ship agent) as the final pre-push quality gate for single-developer workflows; verify diff, checks, commit message, and push readiness.
 
 Skip the plan phase for: trivial fixes (typos, formatting), well-scoped changes ("rename this variable"), or changes describable in one sentence. Always plan for multi-file changes, new features, refactoring, or design decisions.
 
@@ -26,6 +27,7 @@ The single highest-leverage thing you can do is give each agent a way to verify 
 | worker | subagent | deepseek-v4-flash | Implementation of defined tasks | Fast execution of well-defined, pre-planned steps |
 | flash-patch | subagent | deepseek-v4-flash | Small, scoped edits | Fast turnaround for minimal diffs with explicit verification output |
 | flash-debug | subagent | deepseek-v4-flash | Debugging failing commands | Fast triage using failing output and rerun verification |
+| ship | subagent | deepseek-v4-flash | Final commit + push gate | Solo workflow guardrail: diff review, verification, commit message, push decision |
 
 ## Skills
 

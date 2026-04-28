@@ -318,7 +318,7 @@ function checkAgentsMdTable() {
         } else {
           fail(`${name} mode`, `expected primary, got "${row.mode}"`);
         }
-      } else if (name === 'reviewer' || name === 'worker') {
+      } else if (name === 'reviewer' || name === 'worker' || name === 'ship') {
         const expectedMode = 'subagent';
         if (row.mode === expectedMode) {
           pass(`${name} mode is subagent`);
@@ -402,10 +402,10 @@ function checkReadmeAgentCount() {
   for (const line of lines) {
     if (line.startsWith('## Philosophy')) inPhilosophy = true;
     if (inPhilosophy && line.includes('agents')) {
-      if (/Six focused agents/.test(line)) {
-        pass('Says "Six focused agents"');
+      if (/Seven focused agents/.test(line)) {
+        pass('Says "Seven focused agents"');
       } else {
-        fail('Says "Six focused agents"', `found: "${line.trim()}"`);
+        fail('Says "Seven focused agents"', `found: "${line.trim()}"`);
       }
       return;
     }
@@ -458,7 +458,7 @@ function checkReadmeDirectoryTree() {
     return;
   }
 
-  const expected = ['plan.md', 'ask.md', 'reviewer.md', 'worker.md', 'flash-patch.md', 'flash-debug.md'];
+  const expected = ['plan.md', 'ask.md', 'reviewer.md', 'worker.md', 'flash-patch.md', 'flash-debug.md', 'ship.md'];
   for (const file of expected) {
     if (treeAgentFiles.includes(file)) {
       pass(`${file} in tree`);
@@ -525,7 +525,7 @@ function checkAgentPromptQuality() {
   const agentsDir = join(ROOT, '.kilo', 'agents');
   const files = readdirSync(agentsDir).filter(f => f.endsWith('.md'));
 
-  const verificationAgents = ['worker', 'flash-patch', 'flash-debug'];
+  const verificationAgents = ['worker', 'flash-patch', 'flash-debug', 'ship'];
   const scopeAgents = ['ask', 'reviewer'];
 
   for (const file of files) {
