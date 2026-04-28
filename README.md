@@ -9,6 +9,8 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
 ├── AGENTS.md                       # Auto-loaded project instructions
 ├── README.md                       # This file
 ├── .gitignore
+├── scripts/
+│   └── activate-rules.mjs          # Activate/deactivate rule packs
 └── .kilo/
     ├── agents/
     │   ├── plan.md                 # Primary: system design & planning (v4-pro)
@@ -27,6 +29,10 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
     └── rules/
         ├── 00-conventions.md       # Coding standards (loaded first)
         └── 10-workflow.md          # Dev process with verification gates
+        └── packs/                  # Pre-built path-scoped rule packs (inactive by default)
+            ├── security.md         # Hardcoded secrets, input validation, least privilege
+            ├── docs.md             # Don't create docs unasked, keep docs in sync
+            └── backend.md          # REST conventions, error handling, input validation
 ```
 
 ## Workflow
@@ -84,7 +90,7 @@ To use this template as the foundation for a new project:
 3. **Customize models** in `kilo.jsonc` — set your preferred provider and models in the `model`, `small_model`, and `agent` blocks.
 4. **Update `AGENTS.md`** — adjust the project description and workflow to match your project. The agent table should reflect which agents and models you use.
 5. **Replace the example skill** — delete `.kilo/skills/example/` and add your own project-specific skills.
-6. **Review the rules** — `.kilo/rules/00-conventions.md` defines coding standards; `.kilo/rules/10-workflow.md` defines the development process. Customize these for your stack.
+6. **Review the rules** — `.kilo/rules/00-conventions.md` defines coding standards; `.kilo/rules/10-workflow.md` defines the development process. Customize these for your stack. Activate optional packs: `node scripts/activate-rules.mjs security docs backend`.
 7. **Run `kilo`** in the project directory — agents, rules, and commands load automatically. Type `/plan` to start planning.
 
 ## Skills
@@ -107,7 +113,7 @@ Run the template validation suite to verify all config, agent, command, and docu
 node tests/validate.mjs
 ```
 
-The script checks: `kilo.jsonc` validity, agent frontmatter fields, cross-references between config/files/table/tree, command-agent linkage, rule file existence, and README consistency. Zero dependencies — uses only Node.js built-in modules.
+The script checks: `kilo.jsonc` validity, agent frontmatter fields, cross-references between config/files/table/tree, command-agent linkage, rule file existence, rule pack validity, and README consistency. Zero dependencies — uses only Node.js built-in modules.
 
 ## Requirements
 

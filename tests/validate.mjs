@@ -1,4 +1,3 @@
-import { strict as assert } from 'node:assert';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -120,17 +119,22 @@ function parseScalar(value) {
   return value;
 }
 
-// ── Agent file helpers ─────────────────────────────────────────
-
-const OVERRIDE_AGENTS = ['plan', 'ask', 'reviewer', 'worker'];
-const BUILTIN_AGENTS = ['compaction', 'explore'];
-
-function readAgentYaml(name) {
-  const filePath = join(ROOT, '.kilo', 'agents', `${name}.md`);
-  if (!existsSync(filePath)) return null;
-  const content = readText(filePath);
-  return { path: filePath, yaml: parseYamlFrontmatter(content) };
+function parseYamlArray(value) {
+  if (Array.isArray(value)) return value;
+  if (typeof value !== 'string') return [];
+  if (value.startsWith('[') && value.endsWith(']')) {
+    const inner = value.slice(1, -1);
+    return inner
+      .split(',')
+      .map(s => s.trim().replace(/^["']|["']$/g, ''))
+      .filter(Boolean);
+  }
+  return [];
 }
+
+// ── Constants ──────────────────────────────────────────────────
+
+const BUILTIN_AGENTS = ['compaction', 'explore'];
 
 // ── Validation checks ──────────────────────────────────────────
 
@@ -471,6 +475,86 @@ function checkReadmeDirectoryTree() {
   }
 }
 
+function checkRulesPacks() {
+  const section = 'Rule packs';
+  results.push(`\n[${section}]`);
+
+  const packsDir = join(ROOT, '.kilo', 'rules', 'packs');
+
+  if (!existsSync(packsDir)) {
+    pass('packs directory not found (optional)');
+    return;
+  }
+
+  pass('packs directory exists');
+
+  const files = readdirSync(packsDir).filter(f => f.endsWith('.md'));
+
+  if (files.length === 0) {
+    pass('packs directory is empty (no packs defined)');
+    return;
+  }
+
+  pass(`${files.length} pack file(s) found`);
+
+  for (const file of files) {
+    const content = readText(join(packsDir, file));
+    const yaml = parseYamlFrontmatter(content);
+
+    if (!yaml) {
+      fail(file, 'no valid YAML frontmatter');
+      continue;
+    }
+
+    const pathsValue = yaml.paths;
+    if (!pathsValue) {
+      fail(`${file} paths`, 'missing required paths field');
+    } else {
+      const paths = parseYamlArray(pathsValue);
+      if (paths.length === 0) {
+        fail(`${file} paths`, 'paths must be a non-empty array of glob patterns');
+      } else {
+        const valid = paths.every(p => typeof p === 'string' && p.length > 0);
+        if (valid) {
+          pass(`${file} paths (${paths.length} pattern(s))`);
+        } else {
+          fail(`${file} paths`, 'all path entries must be non-empty strings');
+        }
+      }
+    }
+
+    if (yaml.description) {
+      if (typeof yaml.description === 'string') {
+        pass(`${file} description`);
+      } else {
+        fail(`${file} description`, 'description must be a string');
+      }
+    }
+  }
+
+  const rulesDir = join(ROOT, '.kilo', 'rules');
+  const rulesFiles = readdirSync(rulesDir).filter(f => f.endsWith('.md'));
+  const packNames = new Set(files.map(f => f.replace('.md', '')));
+  const activeNames = new Set(rulesFiles.map(f => f.replace('.md', '')));
+
+  const conflicts = [...packNames].filter(n => activeNames.has(n));
+  if (conflicts.length === 0) {
+    pass('No pack name conflicts with active rules');
+  } else {
+    fail('No pack name conflicts with active rules', `conflicts: ${conflicts.join(', ')}`);
+  }
+
+  const activePrefixMatch = rulesFiles.filter(f => /^\d+-/.test(f)).map(f => f.replace('.md', ''));
+  const activatedPacks = activePrefixMatch.filter(f => {
+    const name = f.replace(/^\d+-/, '');
+    return packNames.has(name);
+  });
+
+  if (files.length > 0 && activatedPacks.length === 0) {
+    results.push(`  \x1b[33m⚠\x1b[0m No packs activated. Run: node scripts/activate-rules.mjs <pack>`);
+  }
+}
+
 // ── Main runner ─────────────────────────────────────────────────
 
 console.log('\nValidating KiloTemplate...');
@@ -482,6 +566,7 @@ try {
   checkAgentsMdTable();
   checkCommandAgentLinks();
   checkRuleFilesExist();
+  checkRulesPacks();
   checkReadmeAgentCount();
   checkReadmeDirectoryTree();
 } catch (e) {

@@ -50,6 +50,22 @@ paths: ["src/api/**/*", "docs/*.md"]
 
 Rules without a `paths` field apply globally. Path-scoped rules only load when working with matching files, keeping context lean.
 
+### Rule Packs
+
+Pre-built, path-scoped rule packs live in `.kilo/rules/packs/`. Packs are inactive by default — activate them with the script:
+
+```
+node scripts/activate-rules.mjs security docs
+```
+
+Available packs:
+
+| Pack | Paths | Purpose |
+|------|-------|---------|
+| `security` | `*.js`, `*.ts`, `*.py`, `*.env` | Hardcoded secrets, input validation, least privilege |
+| `docs` | `*.md`, `docs/**/*` | Don't create docs unasked, keep docs in sync |
+| `backend` | `src/api/**/*`, `src/db/**/*` | REST conventions, error handling, input validation |
+
 ## Maintaining AGENTS.md
 
 Treat these instructions like code: review when things go wrong, prune regularly, and update when you repeat a correction.
