@@ -1,6 +1,6 @@
 # Kilo Code Project Template
 
-A minimal, local-first agentic development template for [Kilo Code](https://kilo.ai). Structured Plan → Execute → Review workflow with DeepSeek-powered agents.
+A minimal, local-first agentic development template for [Kilo Code](https://kilo.ai). Structured Plan → Execute → Review workflow with DeepSeek-powered agents, plus fast-path `/patch` and `/debug` routes for small edits and failure triage.
 
 ## Directory Structure
 
@@ -15,9 +15,13 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
     │   ├── ask.md                  # Primary: code explanation, research (v4-flash)
     │   ├── reviewer.md             # Subagent: code review, read-only (v4-flash)
     │   └── worker.md               # Subagent: implementation (v4-flash)
+    │   ├── flash-patch.md          # Subagent: small, scoped edits (v4-flash)
+    │   └── flash-debug.md          # Subagent: debugging failing commands (v4-flash)
     ├── commands/
     │   ├── plan.md                 # /plan → plan agent
-    │   └── review.md               # /review → reviewer agent
+    │   ├── review.md               # /review → reviewer agent
+    │   ├── patch.md                # /patch → flash-patch agent
+    │   └── debug.md                # /debug → flash-debug agent
     └── skills/
         └── example/SKILL.md        # Example stub — replace with project-specific skills
     └── rules/
@@ -32,6 +36,12 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
   → worker implements each step → lint + tests pass
     → /review → reviewer inspects diff → no CRITICAL issues
       → commit
+
+/patch → flash-patch applies a small scoped edit
+  → runs explicit verification command(s) with passing output
+
+/debug → flash-debug reproduces failure from provided command/error output
+  → applies fix and reruns explicit verification command(s) with passing output
 ```
 
 ### Phase 1: Plan (`/plan`)
@@ -86,7 +96,7 @@ Skills encode project-specific patterns the LLM doesn't already know: non-standa
 After setting up the template (see [Using This Template](#using-this-template)):
 
 1. Run `kilo` in the project directory. Agents, rules, and commands load automatically.
-2. Type `/plan` to start the plan agent, `/review` to review changes, or switch to the Ask agent for questions and code explanation.
+2. Type `/plan` for non-trivial planning, `/patch` for small scoped edits, `/debug` for failure triage, and `/review` to review changes. Switch to the Ask agent for questions and code explanation.
 3. For implementation, delegate to the worker agent via the Task tool.
 
 ## Testing
@@ -107,6 +117,6 @@ The script checks: `kilo.jsonc` validity, agent frontmatter fields, cross-refere
 ## Philosophy
 
 - **Local-first** — Everything lives in your repo. No external services beyond the LLM API.
-- **Minimal** — Four agents, one skill stub, two rules, two commands. No frameworks, no abstractions.
+- **Minimal** — Six focused agents (including flash-patch/flash-debug), one skill stub, two rules, four commands. No frameworks, no abstractions.
 - **Verified** — Every phase has a non-negotiable quality gate. Nothing ships unverified.
 - **Convention over configuration** — Follow existing patterns. Don't invent new ones without reason.

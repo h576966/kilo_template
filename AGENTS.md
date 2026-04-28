@@ -4,9 +4,11 @@ Local-first agentic development with a structured Plan → Execute → Review wo
 
 ## Workflow
 
-1. **Plan** — `/plan` or switch to the plan agent for design and architecture. Never code first for non-trivial work.
-2. **Execute** — Delegate implementation steps to the worker agent. One step at a time.
-3. **Review** — `/review` after every meaningful change. Address CRITICAL issues before proceeding.
+1. **Plan** — Use `/plan` (plan agent) for multi-file work, new features, refactors, or any design decision. Never code first for non-trivial work.
+2. **Patch** — Use `/patch` (flash-patch agent) for small, well-scoped edits where the change can be described briefly and verified with explicit passing command output.
+3. **Debug** — Use `/debug` (flash-debug agent) when something is failing and you can provide the failing command and error output, plus the command/output expected after the fix.
+4. **Execute** — Delegate implementation steps to the worker agent. One step at a time.
+5. **Review** — `/review` after every meaningful change. Address CRITICAL issues before proceeding.
 
 ### When to Skip the Plan
 
@@ -29,6 +31,8 @@ The single highest-leverage thing you can do is give each agent a way to verify 
 | ask | primary | deepseek-v4-flash | Code explanation, questions, research | Fast, cost-effective for read-only queries |
 | reviewer | subagent | deepseek-v4-flash | Code review (read-only) | Fast feedback; complex issues escalate to plan |
 | worker | subagent | deepseek-v4-flash | Implementation of defined tasks | Fast execution of well-defined, pre-planned steps |
+| flash-patch | subagent | deepseek-v4-flash | Small, scoped edits | Fast turnaround for minimal diffs with explicit verification output |
+| flash-debug | subagent | deepseek-v4-flash | Debugging failing commands | Fast triage using failing output and rerun verification |
 
 ## Skills
 

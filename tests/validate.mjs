@@ -398,15 +398,16 @@ function checkReadmeAgentCount() {
   for (const line of lines) {
     if (line.startsWith('## Philosophy')) inPhilosophy = true;
     if (inPhilosophy && line.includes('agents')) {
-      if (/Four agents/.test(line)) {
-        pass('Says "Four agents"');
+      if (/Six focused agents/.test(line)) {
+        pass('Says "Six focused agents"');
       } else {
-        fail('Says "Four agents"', `found: "${line.trim()}"`);
+        fail('Says "Six focused agents"', `found: "${line.trim()}"`);
       }
       return;
     }
   }
-  fail('"Four agents" line found', 'not found in Philosophy section');
+  fail('"Six focused agents" line found', 'not found in Philosophy section');
+
 }
 
 function checkReadmeDirectoryTree() {
@@ -453,7 +454,7 @@ function checkReadmeDirectoryTree() {
     return;
   }
 
-  const expected = ['plan.md', 'ask.md', 'reviewer.md', 'worker.md'];
+  const expected = ['plan.md', 'ask.md', 'reviewer.md', 'worker.md', 'flash-patch.md', 'flash-debug.md'];
   for (const file of expected) {
     if (treeAgentFiles.includes(file)) {
       pass(`${file} in tree`);
