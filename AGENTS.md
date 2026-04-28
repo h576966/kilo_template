@@ -10,14 +10,7 @@ Local-first agentic development with a structured Plan → Execute → Review wo
 4. **Execute** — Delegate implementation steps to the worker agent. One step at a time.
 5. **Review** — `/review` after every meaningful change. Address CRITICAL issues before proceeding.
 
-### When to Skip the Plan
-
-Skip the plan phase for:
-- Trivial fixes: typos, formatting, single-line corrections
-- Well-scoped changes: "rename this variable", "add a log line"
-- Changes where the diff can be described in one sentence
-
-Always plan for: multi-file changes, new features, refactoring, design decisions.
+Skip the plan phase for: trivial fixes (typos, formatting), well-scoped changes ("rename this variable"), or changes describable in one sentence. Always plan for multi-file changes, new features, refactoring, or design decisions.
 
 ### Verification
 
@@ -50,35 +43,11 @@ paths: ["src/api/**/*", "docs/*.md"]
 
 Rules without a `paths` field apply globally. Path-scoped rules only load when working with matching files, keeping context lean.
 
-### Rule Packs
-
-Pre-built, path-scoped rule packs live in `.kilo/rules/packs/`. Packs are inactive by default — activate them with the script:
-
-```
-node scripts/activate-rules.mjs security docs
-```
-
-Available packs:
-
-| Pack | Paths | Purpose |
-|------|-------|---------|
-| `security` | `*.js`, `*.ts`, `*.py`, `*.env` | Hardcoded secrets, input validation, least privilege |
-| `docs` | `*.md`, `docs/**/*` | Don't create docs unasked, keep docs in sync |
-| `backend` | `src/api/**/*`, `src/db/**/*` | REST conventions, error handling, input validation |
+Activated path-scoped rules: `20-security.md` (*.js, *.ts, *.py, *.env), `21-docs.md` (*.md, docs/**/*), `22-backend.md` (src/api/**/*, src/db/**/*). Manage with `node scripts/activate-rules.mjs --add <source.md>` and `--remove <name>`.
 
 ## Maintaining AGENTS.md
 
-Treat these instructions like code: review when things go wrong, prune regularly, and update when you repeat a correction.
-
-**Add** to AGENTS.md when:
-- An agent makes the same mistake twice
-- A code review catches something the agent should have known about this project
-- You typed the same correction or clarification in a previous session
-
-**Remove** from AGENTS.md when:
-- The agent already does it correctly without being told
-- The instruction is self-evident (e.g., "write clean code")
-- The file exceeds 200 lines — prune ruthlessly; shorter files produce better adherence
+Treat these instructions like code: review when things go wrong, prune regularly, update when you repeat a correction. Add when: an agent makes the same mistake twice, a code review catches something the agent should have known, or you typed the same correction in a previous session. Remove when: the agent already does it correctly, the instruction is self-evident, or the file exceeds 200 lines.
 
 ## Do NOT
 

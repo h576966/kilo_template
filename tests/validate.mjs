@@ -475,83 +475,97 @@ function checkReadmeDirectoryTree() {
   }
 }
 
-function checkRulesPacks() {
-  const section = 'Rule packs';
+function checkActivatedRules() {
+  const section = 'Activated rules';
   results.push(`\n[${section}]`);
 
-  const packsDir = join(ROOT, '.kilo', 'rules', 'packs');
+  const rulesDir = join(ROOT, '.kilo', 'rules');
+  const allFiles = readdirSync(rulesDir).filter(f => f.endsWith('.md'));
+  const prefixedPaths = [];
 
-  if (!existsSync(packsDir)) {
-    pass('packs directory not found (optional)');
+  for (const file of allFiles) {
+    if (!/^\d+-.+\.md$/.test(file)) continue;
+    const content = readText(join(rulesDir, file));
+    const yaml = parseYamlFrontmatter(content);
+    const pathsValue = yaml?.paths;
+    if (pathsValue) {
+      const paths = parseYamlArray(pathsValue);
+      if (paths.length > 0) {
+        prefixedPaths.push({ file, paths });
+      }
+    }
+  }
+
+  if (prefixedPaths.length === 0) {
+    pass('No activated path-scoped rules found');
     return;
   }
 
-  pass('packs directory exists');
+  pass(`${prefixedPaths.length} activated path-scoped rule(s) found`);
 
-  const files = readdirSync(packsDir).filter(f => f.endsWith('.md'));
+  for (const { file, paths } of prefixedPaths) {
+    pass(`${file} paths (${paths.length} pattern(s))`);
 
-  if (files.length === 0) {
-    pass('packs directory is empty (no packs defined)');
-    return;
+    const config = readJsonc(join(ROOT, 'kilo.jsonc'));
+    const instructionPaths = Array.isArray(config.instructions) ? config.instructions : [];
+    const relPath = `.kilo/rules/${file}`;
+
+    if (instructionPaths.includes(relPath)) {
+      pass(`${file} in kilo.jsonc instructions`);
+    } else {
+      fail(`${file}`, 'missing from kilo.jsonc instructions');
+    }
   }
+}
 
-  pass(`${files.length} pack file(s) found`);
+function checkAgentPromptQuality() {
+  const section = 'Agent prompt quality';
+  results.push(`\n[${section}]`);
+
+  const agentsDir = join(ROOT, '.kilo', 'agents');
+  const files = readdirSync(agentsDir).filter(f => f.endsWith('.md'));
+
+  const verificationAgents = ['worker', 'flash-patch', 'flash-debug'];
+  const scopeAgents = ['ask', 'reviewer'];
 
   for (const file of files) {
-    const content = readText(join(packsDir, file));
-    const yaml = parseYamlFrontmatter(content);
+    const name = file.replace('.md', '');
+    const content = readText(join(agentsDir, file));
+    const lines = content.split('\n');
+    const body = content.split('---').slice(2).join('---');
 
-    if (!yaml) {
-      fail(file, 'no valid YAML frontmatter');
-      continue;
-    }
-
-    const pathsValue = yaml.paths;
-    if (!pathsValue) {
-      fail(`${file} paths`, 'missing required paths field');
+    if (/You are \w+/i.test(body)) {
+      pass(`${name} identity statement`);
     } else {
-      const paths = parseYamlArray(pathsValue);
-      if (paths.length === 0) {
-        fail(`${file} paths`, 'paths must be a non-empty array of glob patterns');
+      fail(`${name} identity statement`, 'missing "You are X" declaration');
+    }
+
+    if (scopeAgents.includes(name)) {
+      if (/forbidden|not allowed|deny|do not/i.test(body)) {
+        pass(`${name} scope boundaries`);
       } else {
-        const valid = paths.every(p => typeof p === 'string' && p.length > 0);
-        if (valid) {
-          pass(`${file} paths (${paths.length} pattern(s))`);
-        } else {
-          fail(`${file} paths`, 'all path entries must be non-empty strings');
-        }
+        fail(`${name} scope boundaries`, 'no explicit allowed/forbidden boundaries');
       }
     }
 
-    if (yaml.description) {
-      if (typeof yaml.description === 'string') {
-        pass(`${file} description`);
+    if (verificationAgents.includes(name)) {
+      if (/verif|required output|lint.*test|non-negotiable/i.test(body)) {
+        pass(`${name} verification criteria`);
       } else {
-        fail(`${file} description`, 'description must be a string');
+        fail(`${name} verification criteria`, 'no explicit verification steps or required output');
       }
     }
-  }
 
-  const rulesDir = join(ROOT, '.kilo', 'rules');
-  const rulesFiles = readdirSync(rulesDir).filter(f => f.endsWith('.md'));
-  const packNames = new Set(files.map(f => f.replace('.md', '')));
-  const activeNames = new Set(rulesFiles.map(f => f.replace('.md', '')));
+    if (/do not guess|do not fabricate|do not hallucinate|if uncertain/i.test(body)) {
+      pass(`${name} anti-hallucination`);
+    } else {
+      results.push(`  \x1b[33m⚠\x1b[0m ${name} anti-hallucination — consider adding "do not guess/fabricate" language`);
+    }
 
-  const conflicts = [...packNames].filter(n => activeNames.has(n));
-  if (conflicts.length === 0) {
-    pass('No pack name conflicts with active rules');
-  } else {
-    fail('No pack name conflicts with active rules', `conflicts: ${conflicts.join(', ')}`);
-  }
-
-  const activePrefixMatch = rulesFiles.filter(f => /^\d+-/.test(f)).map(f => f.replace('.md', ''));
-  const activatedPacks = activePrefixMatch.filter(f => {
-    const name = f.replace(/^\d+-/, '');
-    return packNames.has(name);
-  });
-
-  if (files.length > 0 && activatedPacks.length === 0) {
-    results.push(`  \x1b[33m⚠\x1b[0m No packs activated. Run: node scripts/activate-rules.mjs <pack>`);
+    const bodyLines = lines.length;
+    if (bodyLines > 100) {
+      results.push(`  \x1b[33m⚠\x1b[0m ${name} conciseness (${bodyLines} lines, >100 recommended max)`);
+    }
   }
 }
 
@@ -562,11 +576,12 @@ console.log('\nValidating KiloTemplate...');
 try {
   checkJsonConfig();
   checkAgentOverrideFiles();
+  checkAgentPromptQuality();
   checkCrossReferenceAgents();
   checkAgentsMdTable();
   checkCommandAgentLinks();
   checkRuleFilesExist();
-  checkRulesPacks();
+  checkActivatedRules();
   checkReadmeAgentCount();
   checkReadmeDirectoryTree();
 } catch (e) {
