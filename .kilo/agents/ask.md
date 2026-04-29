@@ -6,7 +6,7 @@ color: "#3B82F6"
 options:
   thinking:
     type: enabled
-    budget: 8192
+    budget: 4096
 permission:
   edit: deny
   bash: deny
