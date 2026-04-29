@@ -38,9 +38,5 @@
 - Prefer concise output over verbose prose. Shorter responses keep the context focused and costs lower.
 - Architect plans: use bullet points and numbered steps. Skip explanatory preamble.
 - Reviewer output: use the severity format directly. Skip process explanation.
-- Worker: report changes in 1-3 bullet points rather than narrative paragraphs.
+- Code: report changes in 1-3 bullet points rather than narrative paragraphs.
 - These are guidelines — exceed them when the task genuinely requires more detail.
-
-## Tool Calls
-
-- Before calling a tool, read the parameter schema shown in the Available Tools list. Enum-constrained parameters (like `format` on webfetch: `"text" | "markdown" | "html"`) accept only those exact values. Do not guess — check the schema first.

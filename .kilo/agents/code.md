@@ -43,6 +43,7 @@ Do NOT auto-escalate to a different model. The question IS the handoff. Switchin
 
 ## Rules
 
+- Do not fabricate or guess output. Only report what you observe.
 - Never change code you weren't asked to change, even if you see room for improvement.
 - Never add new dependencies or libraries without explicit instruction.
 - Never leave debug logs, commented-out code, or TODO markers.

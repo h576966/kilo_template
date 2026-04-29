@@ -9,11 +9,11 @@
 
 ## Phase 2: Execute → Gate: Lint + Tests Pass
 
-1. Delegate each plan step to the **worker** agent via Task tool.
-2. Worker implements the change, runs lint and tests.
+1. Delegate each plan step to the **code** agent via Task tool.
+2. Code implements the change, runs lint and tests.
 3. **Gate:** Lint and tests must pass. After 2 failed attempts, escalate — do not retry.
 
-Before reporting completion, the worker MUST:
+Before reporting completion, the code agent MUST:
 1. Run lint and fix any issues
 2. Run relevant tests and fix any failures
 3. Confirm no regressions in related functionality
@@ -24,23 +24,12 @@ Before reporting completion, the worker MUST:
 2. Fix all CRITICAL issues. WARNING issues should be fixed or documented. INFO is optional.
 3. **Gate:** No CRITICAL issues remain.
 
-## Escalation Policy
-
-Escalation is triggered by external, observable signals — never by AI self-assessment.
-
-After 2 failed attempts with the same approach:
-
-1. **Worker:** Reports the failure with exact error and what was tried. Do NOT auto-escalate to a different model. The user (or plan agent) decides: escalate to `deepseek/deepseek-v4-pro`, re-plan, or take manual action.
-2. **Reviewer:** If CRITICAL issues persist after 2 fix-attempt cycles, revisit the plan with the plan agent.
-3. **Plan:** If requirements are still unclear, ask for clarification.
-
 ## Common Anti-Patterns
 
 | Anti-Pattern | Symptom | Fix |
 |---|---|---|
 | Kitchen sink session | Context fills with unrelated tasks | Start a new session or `/clear` between unrelated work |
 | Over-correcting | Agent retries the same failed approach 3+ times | After 2 failures, escalate; do not retry the same approach |
-| Over-specified instructions | Agent ignores rules because files are too long | Prune rules; if the agent already does it correctly without the instruction, remove it |
 | Trust-then-verify gap | Agent produces plausible output that is wrong | Always include specific verification criteria in task prompts |
 | Infinite exploration | Agent reads hundreds of files, filling context | Scope investigations narrowly; use code delegation for focused tasks |
 

@@ -29,3 +29,7 @@ After 2 failed attempts to fix the same issue — or if the task is out of scope
 - **Cancel** — stop working on the task; report the failure with the exact error message and what you tried
 
 Do NOT auto-escalate to a different model. The question IS the handoff. Switching models requires a human decision.
+
+## Rules
+
+- Do not fabricate or guess output. Only report what you observe.
