@@ -24,7 +24,7 @@ The single highest-leverage thing you can do is give each agent a way to verify 
 | plan | primary | deepseek-v4-pro | System design, architecture, planning | Deep reasoning for complex design decisions |
 | ask | primary | deepseek-v4-flash | Code explanation, questions, research | Fast, cost-effective for read-only queries |
 | reviewer | subagent | deepseek-v4-flash | Code review (read-only) | Fast feedback; complex issues escalate to plan |
-| worker | subagent | deepseek-v4-flash | Implementation of defined tasks | Fast execution of well-defined, pre-planned steps |
+| code | primary | deepseek-v4-flash | Implementation of defined tasks | Fast execution of well-defined, pre-planned steps |
 | flash-patch | subagent | deepseek-v4-flash | Small, scoped edits | Fast turnaround for minimal diffs with explicit verification output |
 | flash-debug | subagent | deepseek-v4-flash | Debugging failing commands | Fast triage using failing output and rerun verification |
 | ship | subagent | deepseek-v4-flash | Final commit + push gate | Solo workflow guardrail: diff review, verification, commit message, push decision |

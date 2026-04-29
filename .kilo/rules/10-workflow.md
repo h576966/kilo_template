@@ -42,5 +42,5 @@ After 2 failed attempts with the same approach:
 | Over-correcting | Agent retries the same failed approach 3+ times | After 2 failures, escalate; do not retry the same approach |
 | Over-specified instructions | Agent ignores rules because files are too long | Prune rules; if the agent already does it correctly without the instruction, remove it |
 | Trust-then-verify gap | Agent produces plausible output that is wrong | Always include specific verification criteria in task prompts |
-| Infinite exploration | Agent reads hundreds of files, filling context | Scope investigations narrowly; use worker delegation for focused tasks |
+| Infinite exploration | Agent reads hundreds of files, filling context | Scope investigations narrowly; use code delegation for focused tasks |
 

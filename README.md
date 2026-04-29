@@ -16,7 +16,7 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
     │   ├── plan.md
     │   ├── ask.md
     │   ├── reviewer.md
-    │   ├── worker.md
+    │   └── code.md
     │   ├── flash-patch.md
     │   ├── flash-debug.md
     │   └── ship.md
@@ -40,7 +40,7 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
 
 ```
 /plan → plan agent designs → plan approved
-  → worker implements each step → lint + tests pass
+  → code implements each step → lint + tests pass
     → /review → reviewer inspects diff → no CRITICAL issues
       → commit
 
@@ -57,8 +57,8 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
 ### Phase 1: Plan (`/plan`)
 The plan agent analyzes requirements, reads the codebase, and produces a structured plan. No code is written until approved.
 
-### Phase 2: Execute (worker agent)
-Delegate each step to the worker. Worker reads files, implements with minimal diff, and must pass lint/tests before reporting done. After 2 failed attempts, it escalates.
+### Phase 2: Execute (code agent)
+Delegate each step to the code agent. It reads files, implements with minimal diff, and must pass lint/tests before reporting done. After 2 failed attempts, it escalates.
 
 ### Phase 3: Review (`/review`)
 The reviewer (read-only) inspects the diff for correctness, security, edge cases, performance, and style. Fix all CRITICAL issues before merging.
@@ -69,12 +69,12 @@ Read-only agent for code explanation, research, and technical questions. Uses V4
 ## Design Decisions
 
 - **Read-only Ask** — Explicit tool boundaries with anti-workaround rules. Uses V4 Flash because Q&A doesn't require deep reasoning.
-- **Model tier strategy** — V4 Pro for architecture (plan), V4 Flash for everything else. If Flash fails twice, the worker reports the failure — switching to Pro is a human decision.
+- **Model tier strategy** — V4 Pro for architecture (plan), V4 Flash for everything else. If Flash fails twice, the code agent reports the failure — switching to Pro is a human decision.
 - **JSONC config** — `kilo.jsonc` supports comments, making the config self-documenting.
 - **Numbered rules** — `00-conventions.md` and `10-workflow.md` load in predictable order.
 - **Read-only reviewer** — Reviewer has `edit: deny` and `bash: ask`. Cannot accidentally modify code.
 - **Verification gates** — Every phase has a non-negotiable checkpoint. Work is not done until lint, typecheck, and tests pass.
-- **Escalation policy** — After 2 failed attempts, worker reports and stops. Escalation to V4 Pro is a human decision.
+- **Escalation policy** — After 2 failed attempts, the code agent reports and stops. Escalation to V4 Pro is a human decision.
 - **Explicit instruction order** — `kilo.jsonc` lists instruction files explicitly, ensuring determinism.
 
 ## Using This Template
@@ -95,7 +95,7 @@ Skills encode project-specific patterns the LLM doesn't already know: non-standa
 
 1. Run `kilo` in the project directory.
 2. Type `/plan` for planning, `/patch` for small edits, `/debug` for failure triage, `/review` to review changes.
-3. For implementation, delegate to the worker agent via the Task tool.
+3. For implementation, delegate to the code agent via the Task tool.
 
 ## Testing
 

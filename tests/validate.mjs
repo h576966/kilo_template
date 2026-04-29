@@ -311,14 +311,14 @@ function checkAgentsMdTable() {
         fail(`${name} model`, `table has "${row.model}", config has "${expectedModel}"`);
       }
 
-      if (name === 'plan' || name === 'ask') {
+      if (name === 'plan' || name === 'ask' || name === 'code') {
         const expectedMode = 'primary';
         if (row.mode === expectedMode) {
           pass(`${name} mode is primary`);
         } else {
           fail(`${name} mode`, `expected primary, got "${row.mode}"`);
         }
-      } else if (name === 'reviewer' || name === 'worker' || name === 'ship') {
+      } else if (name === 'reviewer' || name === 'ship') {
         const expectedMode = 'subagent';
         if (row.mode === expectedMode) {
           pass(`${name} mode is subagent`);
@@ -458,7 +458,7 @@ function checkReadmeDirectoryTree() {
     return;
   }
 
-  const expected = ['plan.md', 'ask.md', 'reviewer.md', 'worker.md', 'flash-patch.md', 'flash-debug.md', 'ship.md'];
+  const expected = ['plan.md', 'ask.md', 'reviewer.md', 'code.md', 'flash-patch.md', 'flash-debug.md', 'ship.md'];
   for (const file of expected) {
     if (treeAgentFiles.includes(file)) {
       pass(`${file} in tree`);
@@ -525,7 +525,7 @@ function checkAgentPromptQuality() {
   const agentsDir = join(ROOT, '.kilo', 'agents');
   const files = readdirSync(agentsDir).filter(f => f.endsWith('.md'));
 
-  const verificationAgents = ['worker', 'flash-patch', 'flash-debug', 'ship'];
+  const verificationAgents = ['code', 'flash-patch', 'flash-debug', 'ship'];
   const scopeAgents = ['ask', 'reviewer'];
 
   for (const file of files) {

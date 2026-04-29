@@ -99,8 +99,8 @@ Ask is a read-only research and explanation agent. It can read files, search cod
 | Debug failing command | flash-debug | `/debug` |
 | Code review | reviewer | `/review` |
 | Explain / Search / Research | self (Ask) | — |
-| Implementation (planned) | worker | Task tool |
-| Refactor (large) | plan → worker | `/plan` then Task |
+| Implementation (planned) | code | Task tool |
+| Refactor (large) | plan → code | `/plan` then Task |
 | Unclear routing | flash-patch | `/patch` — "If this requires design work first, use `/plan`." |
 
 ## Confidence
