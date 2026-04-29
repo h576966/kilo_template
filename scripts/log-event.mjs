@@ -63,12 +63,8 @@ export function logEvent({ event_type, agent, result, short_reason, command } = 
   }
 }
 
-if (import.meta.url === `file://${fileURLToPath(import.meta.url).replace(/\\/g, '/')}` || process.argv[1]?.includes('log-event.mjs')) {
+if (process.argv[1]?.endsWith('log-event.mjs')) {
   const args = process.argv.slice(2);
-  if (args.length < 4) {
-    console.error('Warning: expected 4 args (event_type, agent, result, short_reason), got', args.length);
-  }
-
   const [event_type = '', agent = '', result = '', ...reasonParts] = args;
   const short_reason = reasonParts.join(' ');
 
