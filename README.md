@@ -10,7 +10,10 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
 ├── README.md
 ├── .gitignore
 ├── scripts/
-│   └── activate-rules.mjs          # Activate/deactivate rule packs
+│   ├── activate-rules.mjs          # Activate/deactivate rule packs
+│   ├── log-event.mjs               # Append structured agent event logs (JSONL)
+│   └── review-logs.mjs             # Weekly summary of logged agent events
+├── logs/                           # Agent event logs (gitignored)
 └── .kilo/
     ├── agents/
     │   ├── plan.md

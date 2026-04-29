@@ -39,4 +39,6 @@ Thumbs.db
 .kilo/snapshots/
 
 # Logs
+logs/*
+!logs/.gitkeep
 *.log

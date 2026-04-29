@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { logEvent } from '../scripts/log-event.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -596,6 +597,7 @@ for (const line of results) {
 console.log(`\n${checksPassed} passed, ${checksFailed} failed`);
 
 if (checksFailed > 0) {
+  try { logEvent({ event_type: 'validation_failed', agent: 'validate', result: 'fail', short_reason: `${checksFailed} checks failed` }); } catch {}
   process.exit(1);
 } else {
   console.log('\x1b[32mAll validations passed.\x1b[0m');

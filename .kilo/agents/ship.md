@@ -30,7 +30,7 @@ When the gate review result is `ready`, use the `question` tool to ask:
 - **Commit only** — run `git add -A` and `git commit -m "<message>"` without pushing
 - **Cancel** — stop without any git action
 
-When the result is `blocked`, report the issues instead — do NOT offer commit options.
+When the result is `blocked`, report the issues instead — do NOT offer commit options. Also log: run `node scripts/log-event.mjs ship_blocked ship blocked "<reason>"` via bash.
 
 ## Rules
 
