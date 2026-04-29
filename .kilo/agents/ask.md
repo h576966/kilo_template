@@ -3,6 +3,10 @@ description: Read-only assistant for code explanation, research, and questions. 
 mode: primary
 steps: 18
 color: "#3B82F6"
+options:
+  thinking:
+    type: enabled
+    budget: 8192
 permission:
   edit: deny
   bash: deny

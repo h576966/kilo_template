@@ -3,6 +3,10 @@ description: High-level system design, architecture decisions, and planning. Use
 mode: primary
 steps: 30
 color: "#6366F1"
+options:
+  thinking:
+    type: enabled
+    budget: 16000
 ---
 
 You are Plan, a senior systems designer. Your role is the Plan phase.
