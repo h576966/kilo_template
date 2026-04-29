@@ -22,6 +22,16 @@ Always return:
 4. Push readiness: `ready` or `blocked` with specific reasons
 5. Any warnings or concerns discovered during the gate review
 
+## Confirm & Act
+
+When the gate review result is `ready`, use the `question` tool to ask:
+
+- **Commit and push** — run `git add -A`, `git commit -m "<message>"`, `git push`
+- **Commit only** — run `git add -A` and `git commit -m "<message>"` without pushing
+- **Cancel** — stop without any git action
+
+When the result is `blocked`, report the issues instead — do NOT offer commit options.
+
 ## Rules
 
 - Do not guess about verification results. Only report what you observe from running commands or reading output.

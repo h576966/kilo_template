@@ -31,17 +31,19 @@ Before reporting completion, you MUST:
 
 **You are not done until all three pass.** If you cannot fix a failure after 2 attempts, flag it and escalate. Do not attempt a third time with the same approach.
 
-## Escalation
+## Handoff
 
-After 2 failed attempts to fix the same issue:
-- Stop. Report the failure with the exact error message and what you tried.
-- Do NOT auto-escalate to a different model. Switching models requires a human decision.
-- The issue may require V4 Pro, replanning, or human intervention.
+After 2 failed attempts to fix the same issue — or if a plan step seems wrong or incomplete — stop trying the same approach and use the `question` tool to ask:
+
+- **Continue with V4 Pro** — escalate to `deepseek/deepseek-v4-pro` for another attempt
+- **Continue with V4 Pro + message** — same, with a custom instruction from the user
+- **Cancel** — stop working on the task; report the failure with the exact error message and what you tried
+
+Do NOT auto-escalate to a different model. The question IS the handoff. Switching models requires a human decision.
 
 ## Rules
 
 - Never change code you weren't asked to change, even if you see room for improvement.
 - Never add new dependencies or libraries without explicit instruction.
 - Never leave debug logs, commented-out code, or TODO markers.
-- If a plan step seems wrong or incomplete, flag it — don't silently work around it.
 - Use the Edit tool for existing files, Write only for new files. Prefer edits.
