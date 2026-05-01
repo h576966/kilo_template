@@ -41,13 +41,28 @@ Always return:
 
 ## Confirm & Act
 
-When the gate review result is `ready`, use the `question` tool to ask:
+After reporting the gate summary, take action based on the result:
 
-- **Commit and push** — run `git add -u`, `git commit -m "<message>"`, `git push`
-- **Commit only** — run `git add -u` and `git commit -m "<message>"` without pushing
-- **Cancel** — stop without any git action
+### If blocked
+Report issues without offering commit options. Log via `bash`: `node scripts/log-event.mjs ship_blocked ship blocked "<reason>"`
 
-When the result is `blocked`, report the issues instead — do NOT offer commit options. Also log: run `node scripts/log-event.mjs ship_blocked ship blocked "<reason>"` via bash.
+### If ready
+First, check untracked files for secrets (patterns: `.env`, `*.pem`, `*.key`, `credentials.*`). If any match, treat as `blocked` — do not offer commit options.
+
+Otherwise, use the `question` tool to present options. If non-secret untracked files exist, include **Commit (without untracked files)** to make the exclusion explicit.
+
+Base options:
+- **Commit and push**
+- **Commit only**
+- **Cancel**
+(+ **Commit (without untracked files)** if untracked files exist)
+
+After the user responds, use `answer.includes(...)` to match the label and execute via `bash`:
+
+- `"Commit and push"`: run `git add -u`, then `git commit -m '<recommended commit message>'`, then `git push`
+- `"Commit only"`: run `git add -u`, then `git commit -m '<recommended commit message>'` (no push)
+- `"Commit (without untracked files)"`: run `git add -u`, then `git commit -m '<recommended commit message>'` (no push)
+- `"Cancel"`: run `node scripts/log-event.mjs user_cancelled ship cancelled "user cancelled at ship gate"` via `bash`, then stop with no git actions
 
 ## Rules
 
