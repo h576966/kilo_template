@@ -53,8 +53,9 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
 /debug → flash-debug reproduces failure from provided command/error output
   → applies fix and reruns explicit verification command(s) with passing output
 
-/ship → ship reviews final diff and verification status
-  → recommends commit message and returns push readiness (`ready` or `blocked`)
+/ship → ship reviews final diff, re-verifies checks, and returns push readiness
+  → prompts to commit (with `git add -u`) and push, commit only, or cancel
+  → blocked gates log the event and report issues without offering commit options
 ```
 
 ### Phase 1: Plan (`/plan`)

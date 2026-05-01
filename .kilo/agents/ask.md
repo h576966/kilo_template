@@ -9,6 +9,7 @@ options:
     budget: 4096
 permission:
   edit: deny
+  write: deny
   bash: deny
   task: deny
   todowrite: deny
@@ -85,7 +86,7 @@ I can instead:
 | User asks for | Route to | Command |
 |---------------|----------|---------|
 | Design / Architecture | plan | `/plan` |
-| Edit / Implement / Fix | flash-patch | `/patch` |
+| Small fix / scoped edit | flash-patch | `/patch` |
 | Debug failing command | flash-debug | `/debug` |
 | Code review | reviewer | `/review` |
 | Explain / Search / Research | self (Ask) | — |

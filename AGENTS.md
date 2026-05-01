@@ -4,12 +4,17 @@ Local-first agentic development with a structured Plan → Execute → Review wo
 
 ## Workflow
 
+### Standard: Plan → Execute → Review → Ship
+
 1. **Plan** — Use `/plan` (plan agent) for multi-file work, new features, refactors, or any design decision. Never code first for non-trivial work.
-2. **Patch** — Use `/patch` (flash-patch agent) for small, well-scoped edits where the change can be described briefly and verified with explicit passing command output.
-3. **Debug** — Use `/debug` (flash-debug agent) when something is failing and you can provide the failing command and error output, plus the command/output expected after the fix.
-4. **Execute** — Delegate implementation steps to the code agent. One step at a time.
-5. **Review** — `/review` after every meaningful change. Address CRITICAL issues before proceeding.
-6. **Ship** — Use `/ship` (ship agent) as the final pre-push quality gate for single-developer workflows; verify diff, checks, commit message, and push readiness.
+2. **Execute** — Delegate implementation steps to the code agent. One step at a time.
+3. **Review** — `/review` after every meaningful change. Address CRITICAL issues before proceeding.
+4. **Ship** — Use `/ship` (ship agent) as the final pre-push quality gate for single-developer workflows; verify diff, checks, commit message, and push readiness.
+
+### Fast Paths
+
+- **Patch** — Use `/patch` (flash-patch agent) for small, well-scoped edits where the change can be described briefly and verified with explicit passing command output.
+- **Debug** — Use `/debug` (flash-debug agent) when something is failing and you can provide the failing command and error output, plus the command/output expected after the fix.
 
 Skip the plan phase for: trivial fixes (typos, formatting), well-scoped changes ("rename this variable"), or changes describable in one sentence. Always plan for multi-file changes, new features, refactoring, or design decisions.
 
