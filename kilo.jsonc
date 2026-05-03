@@ -10,6 +10,8 @@
   "instructions": [
     ".kilo/rules/00-conventions.md",
     ".kilo/rules/10-workflow.md",
+    ".kilo/rules/11-model-routing.md",
+    ".kilo/rules/12-context-budget.md",
     ".kilo/rules/20-security.md",
     ".kilo/rules/21-docs.md",
     ".kilo/rules/22-backend.md"

@@ -52,7 +52,7 @@ The single highest-leverage thing you can do is give each agent a way to verify 
 
 ## Rules
 
-Rule files in `.kilo/rules/` may have YAML frontmatter `paths:` to scope them to specific file patterns. Activated path-scoped rules: `20-security.md` (*.js, *.ts, *.py, *.env), `21-docs.md` (*.md, docs/**/*), `22-backend.md` (src/api/**/*, src/db/**/*).
+Rule files in `.kilo/rules/` may have YAML frontmatter `paths:` to scope them to specific file patterns. Global rules (no `paths:`): `00-conventions.md`, `10-workflow.md`, `11-model-routing.md`, `12-context-budget.md`. Activated path-scoped rules: `20-security.md` (*.js, *.ts, *.py, *.env), `21-docs.md` (*.md, docs/**/*), `22-backend.md` (src/api/**/*, src/db/**/*).
 
 ## Do NOT
 
