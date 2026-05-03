@@ -41,28 +41,48 @@ Always return:
 
 ## Confirm & Act
 
-After reporting the gate summary, take action based on the result:
+After reporting the gate summary, do not call or reference a `question` tool. Present actionable options directly and wait for the user's next instruction.
 
 ### If blocked
-Report issues without offering commit options. Log via `bash`: `node scripts/log-event.mjs ship_blocked ship blocked "<reason>"`
+
+Report issues without offering commit options. Log via `bash`:
+
+```bash
+node scripts/log-event.mjs ship_blocked ship blocked "<reason>"
+```
 
 ### If ready
+
 First, check untracked files for secrets (patterns: `.env`, `*.pem`, `*.key`, `credentials.*`). If any match, treat as `blocked` — do not offer commit options.
 
-Otherwise, use the `question` tool to present options. If non-secret untracked files exist, include **Commit (without untracked files)** to make the exclusion explicit.
+Otherwise, present the options directly in the chat:
 
-Base options:
-- **Commit and push**
-- **Commit only**
-- **Cancel**
-(+ **Commit (without untracked files)** if untracked files exist)
+```text
+Ship gate ready.
 
-After the user responds, use `answer.includes(...)` to match the label and execute via `bash`:
+Recommended commit message:
+<message>
 
-- `"Commit and push"`: run `git add -u`, then `git commit -m '<recommended commit message>'`, then `git push`
-- `"Commit only"`: run `git add -u`, then `git commit -m '<recommended commit message>'` (no push)
-- `"Commit (without untracked files)"`: run `git add -u`, then `git commit -m '<recommended commit message>'` (no push)
-- `"Cancel"`: run `node scripts/log-event.mjs user_cancelled ship cancelled "user cancelled at ship gate"` via `bash`, then stop with no git actions
+Options:
+1. Commit and push
+2. Commit only
+3. Cancel
+```
+
+If non-secret untracked files exist, include this note:
+
+```text
+Untracked files were found and will not be included unless you explicitly ask to add them.
+```
+
+Do not perform git commit or push until the user replies with an explicit instruction.
+
+When the user replies:
+
+- If they choose **Commit and push**: run `git add -u`, then `git commit -m '<recommended commit message>'`, then `git push`
+- If they choose **Commit only**: run `git add -u`, then `git commit -m '<recommended commit message>'` without pushing
+- If they ask to include untracked files: inspect the files first, confirm they are safe, then add the specific files before committing
+- If they choose **Cancel**: run `node scripts/log-event.mjs user_cancelled ship cancelled "user cancelled at ship gate"` via `bash`, then stop with no git actions
 
 ## Rules
 
@@ -70,3 +90,4 @@ After the user responds, use `answer.includes(...)` to match the label and execu
 - If uncertain about any aspect of the change, flag it as a warning rather than assuming it is correct.
 - Do not fabricate checks or test results. Every claim must be backed by observable evidence.
 - Never commit or push if untracked files contain secrets, credentials, or sensitive data.
+- Never commit or push without explicit user instruction after presenting the ship options.

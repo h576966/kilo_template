@@ -11,6 +11,7 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
 ├── .gitignore
 ├── scripts/
 │   ├── activate-rules.mjs          # Activate/deactivate rule packs
+│   ├── audit-prompts.mjs           # Minimal audit for stale/broken agent prompt patterns
 │   ├── log-event.mjs               # Append structured agent event logs (JSONL)
 │   └── review-logs.mjs             # Weekly summary of logged agent events
 ├── logs/                           # Agent event logs (gitignored)
@@ -19,7 +20,7 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
     │   ├── plan.md
     │   ├── ask.md
     │   ├── reviewer.md
-    │   └── code.md
+    │   ├── code.md
     │   ├── flash-patch.md
     │   ├── flash-debug.md
     │   └── ship.md
@@ -56,15 +57,15 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
   → applies fix and reruns explicit verification command(s) with passing output
 
 /ship → ship reviews final diff, re-verifies checks, and returns push readiness
-  → prompts to commit (with `git add -u`) and push, commit only, or cancel
+  → presents commit/push/cancel options and waits for explicit user instruction
   → blocked gates log the event and report issues without offering commit options
 ```
 
 ### Phase 1: Plan (`/plan`)
-The plan agent analyzes requirements, reads the codebase, and produces a structured plan. No code is written until approved.
+The plan agent analyzes requirements, reads the codebase, and produces a structured plan. Planning is Flash-first. If the task is complex or risky enough to need V4 Pro, the plan agent stops and produces a compact handoff for a manual V4 Pro rerun. No code is written until approved.
 
 ### Phase 2: Execute (code agent)
-Delegate each step to the code agent. It reads files, implements with minimal diff, and must pass lint/tests before reporting done. After 2 failed attempts, it escalates.
+Delegate each step to the code agent. It reads files, implements with minimal diff, and must pass lint/tests before reporting done. After 2 normal failed attempts, it escalates. For hard-failure classes, it escalates after 1 failed attempt.
 
 ### Phase 3: Review (`/review`)
 The reviewer (read-only) inspects the diff for correctness, security, edge cases, performance, and style. Fix all CRITICAL issues before merging.
@@ -80,7 +81,8 @@ Read-only agent for code explanation, research, and technical questions. Uses V4
 - **Numbered rules** — `00-conventions.md` and `10-workflow.md` load in predictable order.
 - **Read-only reviewer** — Reviewer has `edit: deny` and `bash: ask`. Cannot accidentally modify code.
 - **Verification gates** — Every phase has a non-negotiable checkpoint. Work is not done until lint, typecheck, and tests pass.
-- **Escalation policy** — After 2 failed attempts, the code agent reports and stops. Escalation to V4 Pro is a human decision.
+- **Escalation policy** — After 2 normal failed attempts, the code agent reports and stops. Hard-failure classes escalate after 1 attempt. Escalation to V4 Pro is a human decision.
+- **Prompt audit** — `scripts/audit-prompts.mjs` catches stale agent prompt patterns such as references to removed tools or removed routing agents.
 - **Explicit instruction order** — `kilo.jsonc` lists instruction files explicitly, ensuring determinism.
 
 ## Using This Template
@@ -111,7 +113,13 @@ Run the template validation suite:
 node tests/validate.mjs
 ```
 
-Checks: `kilo.jsonc` validity, agent frontmatter, cross-references between config/files/table/tree, command-agent linkage, rule file existence, activated rules, agent prompt quality, and README consistency. Zero dependencies — uses only Node.js built-in modules.
+Run the minimal prompt audit:
+
+```
+node scripts/audit-prompts.mjs
+```
+
+Checks: `kilo.jsonc` validity, agent frontmatter, cross-references between config/files/table/tree, command-agent linkage, rule file existence, activated rules, agent prompt quality, README consistency, and stale prompt/tool references. Zero dependencies — uses only Node.js built-in modules.
 
 ## Requirements
 

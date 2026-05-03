@@ -67,27 +67,33 @@ When a fix fails:
 4. Decide one of: retry once, narrow context, or escalate.
 5. If escalating, provide a compact handoff rather than raw logs.
 
-## Handoff
+## Handoff to User
 
-When escalation is required, stop trying the same approach. Before showing the options, log the event:
+When escalation is required, stop trying the same approach. Before presenting the handoff, log the event:
 
 ```bash
 node scripts/log-event.mjs escalation_prompted code fail "<brief reason>"
 ```
 
-Then use the `question` tool to ask:
+Then stop and present an actionable handoff directly in the chat. Do **not** call or reference a `question` tool. Do **not** auto-escalate to a different model.
 
-- **Continue with V4 Pro** — escalate to `deepseek/deepseek-v4-pro` for another attempt
-- **Continue with V4 Pro + message** — same, with a custom instruction from the user
-- **Cancel** — stop working on the task; report the failure with the exact error message and what you tried. Also log:
-
-```bash
-node scripts/log-event.mjs user_cancelled code cancelled "user cancelled after escalation prompt"
-```
-
-The escalation handoff should include:
+Use this exact structure:
 
 ```text
+Escalation needed.
+
+Reason:
+<one-sentence reason>
+
+Recommended next step:
+Switch this task to V4 Pro and continue from the handoff below.
+
+Options:
+1. Continue with V4 Pro
+2. Continue with V4 Pro + extra instruction
+3. Cancel
+
+Handoff:
 Task:
 Current state:
 Files touched:
@@ -100,7 +106,13 @@ Decision needed:
 What not to repeat:
 ```
 
-Do NOT auto-escalate to a different model. The question IS the handoff. Switching models requires a human decision.
+If the user cancels, log:
+
+```bash
+node scripts/log-event.mjs user_cancelled code cancelled "user cancelled after escalation prompt"
+```
+
+Switching models requires a human decision.
 
 ## Rules
 
