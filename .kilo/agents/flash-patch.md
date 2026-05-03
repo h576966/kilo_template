@@ -26,15 +26,50 @@ Always include:
 2. The observed passing output (or concise pass summary)
 3. Any assumptions or limits discovered during verification
 
-## Handoff
+## Handoff to User
 
-After 2 failed attempts to fix the same issue — or if the task is out of scope — stop trying the same approach. Before showing the options, log the event: run `node scripts/log-event.mjs escalation_prompted flash-patch fail "<brief reason>"` via bash. Then use the `question` tool to ask:
+After 2 failed attempts to fix the same issue — or if the task is out of scope — stop trying the same approach. Before presenting the handoff, log the event:
 
-- **Continue with V4 Pro** — escalate to `deepseek/deepseek-v4-pro` for another attempt
-- **Continue with V4 Pro + message** — same, with a custom instruction from the user
-- **Cancel** — stop working on the task; report the failure with the exact error message and what you tried. Also log: run `node scripts/log-event.mjs user_cancelled flash-patch cancelled "user cancelled after 2 failed attempts"` via bash.
+```bash
+node scripts/log-event.mjs escalation_prompted flash-patch fail "<brief reason>"
+```
 
-Do NOT auto-escalate to a different model. The question IS the handoff. Switching models requires a human decision.
+Then stop and present an actionable handoff directly in the chat. Do **not** call or reference a `question` tool. Do **not** auto-escalate to a different model.
+
+Use this exact structure:
+
+```text
+Escalation needed.
+
+Reason:
+<one-sentence reason>
+
+Recommended next step:
+Switch this task to V4 Pro, or rerun it through /plan if the task needs design work.
+
+Options:
+1. Continue with V4 Pro
+2. Continue with V4 Pro + extra instruction
+3. Cancel
+
+Handoff:
+Task:
+Current state:
+Files touched:
+Verification attempted:
+Failure/error:
+Likely failure class:
+Decision needed:
+What not to repeat:
+```
+
+If the user cancels, log:
+
+```bash
+node scripts/log-event.mjs user_cancelled flash-patch cancelled "user cancelled after escalation prompt"
+```
+
+Switching models requires a human decision.
 
 ## Rules
 
