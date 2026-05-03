@@ -68,6 +68,12 @@ for (const file of files) {
   for (const rule of FORBIDDEN_PATTERNS) {
     const match = rule.pattern.exec(content);
     if (match) {
+      // Skip matches where the surrounding line is a prohibition (e.g., "do not call a question tool")
+      const lineIdx = lineNumber(content, match.index) - 1;
+      const line = content.split('\n')[lineIdx] || '';
+      if (/\b(?:do\s+\*{0,2}not\*{0,2}|don't|never|avoid)\b.*\bquestion\b/i.test(line)) {
+        continue;
+      }
       failures.push({
         file,
         line: lineNumber(content, match.index),

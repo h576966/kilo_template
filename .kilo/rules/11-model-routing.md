@@ -28,4 +28,4 @@ Do NOT use V4 Pro for:
 
 ## Handoff Protocol
 
-Escalation is always a human decision. Use the `question` tool to present the choice; never auto-switch models.
+Escalation is always a human decision. Present options directly in the chat; never auto-switch models.

@@ -45,9 +45,9 @@ The single highest-leverage thing you can do is give each agent a way to verify 
 | plan | primary | deepseek-v4-flash | Routine planning, scoped design, normal multi-file work, and Pro handoff creation | Cheap default planning with explicit complexity gate |
 | ask | primary | deepseek-v4-flash | Code explanation, questions, research | Fast, cost-effective for read-only queries |
 | reviewer | subagent | deepseek-v4-flash | Code review (read-only) | Fast feedback; complex issues can recommend manual Pro review |
-| code | primary | deepseek-v4-flash | Implementation of defined tasks | Fast execution of well-defined, pre-planned steps |
-| flash-patch | subagent | deepseek-v4-flash | Small, scoped edits | Fast turnaround for minimal diffs with explicit verification output |
-| flash-debug | subagent | deepseek-v4-flash | Debugging failing commands | Fast triage using failing output and rerun verification |
+| code | primary | deepseek-v4-flash | Implementation of defined tasks | Fast execution of well-defined, pre-planned steps; escalates to V4 Pro early for hard-failure classes, after 2 attempts otherwise |
+| flash-patch | subagent | deepseek-v4-flash | Small, scoped edits | Fast turnaround for minimal diffs; escalates to V4 Pro after 2 failed attempts |
+| flash-debug | subagent | deepseek-v4-flash | Debugging failing commands | Fast triage using failing output; escalates to V4 Pro after 2 failed attempts |
 | ship | subagent | deepseek-v4-flash | Final commit + push gate | Solo workflow guardrail: diff review, verification, commit message, push decision |
 
 ## Rules
@@ -63,3 +63,4 @@ Rule files in `.kilo/rules/` may have YAML frontmatter `paths:` to scope them to
 - **Do not refactor unrelated code.**
 - **Do not leave debug logs, TODO comments, or commented-out code.**
 - **Do not skip linting, type-checking, or tests.** Work is not done until all three pass. After 2 failed fix attempts, escalate; for hard-failure classes, escalate after 1 failed attempt.
+- **Do not auto-escalate to V4 Pro.** Escalation requires a human decision.

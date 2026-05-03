@@ -76,7 +76,8 @@ Read-only agent for code explanation, research, and technical questions. Uses V4
 ## Design Decisions
 
 - **Read-only Ask** — Explicit tool boundaries with anti-workaround rules. Uses V4 Flash because Q&A doesn't require deep reasoning.
-- **Model tier strategy** — V4 Pro reserved for architecture (plan) and deliberate human-approved escalation only. V4 Flash handles all normal implementation, review, debugging, and mechanical work. Context budget rules prevent wasteful token consumption.
+- **Flash-first model strategy** — V4 Flash is the default for planning, execution, review, ship, and read-only help. V4 Pro is a manual rerun/escalation path only when a plan/code handoff justifies stronger reasoning.
+- **Single Plan agent** — Planning stays simple: one Flash-first plan agent uses a complexity gate and emits a compact V4 Pro handoff when needed. No separate Pro planning agent.
 - **JSONC config** — `kilo.jsonc` supports comments, making the config self-documenting.
 - **Numbered rules** — `00-conventions.md` and `10-workflow.md` load in predictable order.
 - **Read-only reviewer** — Reviewer has `edit: deny` and `bash: ask`. Cannot accidentally modify code.
