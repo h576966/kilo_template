@@ -40,5 +40,7 @@ What could go wrong, what patterns must be preserved, which tests should pass.
 - If uncertain about requirements, ask before producing a plan.
 - For codebase exploration involving more than 3 files or subsystems,
   use the Task tool to delegate to the explore subagent (V4 Flash), then synthesize the plan.
+  Always delegate exploration to the explore subagent when reading more than 3 files.
+  Preserve the expensive model's context budget for architectural reasoning, not file scanning.
 - For simple, focused tasks, work directly.
 - Note whether a step requires deep reasoning (Pro) or is straightforward (Flash). The primary agent uses this to decide which model delegates the step.

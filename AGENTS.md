@@ -29,14 +29,14 @@ The single highest-leverage thing you can do is give each agent a way to verify 
 | plan | primary | deepseek-v4-pro | System design, architecture, planning | Deep reasoning for complex design decisions |
 | ask | primary | deepseek-v4-flash | Code explanation, questions, research | Fast, cost-effective for read-only queries |
 | reviewer | subagent | deepseek-v4-flash | Code review (read-only) | Fast feedback; complex issues escalate to plan |
-| code | primary | deepseek-v4-flash | Implementation of defined tasks | Fast execution of well-defined, pre-planned steps |
-| flash-patch | subagent | deepseek-v4-flash | Small, scoped edits | Fast turnaround for minimal diffs with explicit verification output |
-| flash-debug | subagent | deepseek-v4-flash | Debugging failing commands | Fast triage using failing output and rerun verification |
+| code | primary | deepseek-v4-flash | Implementation of defined tasks | Fast execution of well-defined, pre-planned steps; escalates to V4 Pro after 2 failed attempts |
+| flash-patch | subagent | deepseek-v4-flash | Small, scoped edits | Fast turnaround for minimal diffs; escalates to V4 Pro after 2 failed attempts |
+| flash-debug | subagent | deepseek-v4-flash | Debugging failing commands | Fast triage using failing output; escalates to V4 Pro after 2 failed attempts |
 | ship | subagent | deepseek-v4-flash | Final commit + push gate | Solo workflow guardrail: diff review, verification, commit message, push decision |
 
 ## Rules
 
-Rule files in `.kilo/rules/` may have YAML frontmatter `paths:` to scope them to specific file patterns. Activated path-scoped rules: `20-security.md` (*.js, *.ts, *.py, *.env), `21-docs.md` (*.md, docs/**/*), `22-backend.md` (src/api/**/*, src/db/**/*).
+Rule files in `.kilo/rules/` may have YAML frontmatter `paths:` to scope them to specific file patterns. Global rules (no `paths:`): `00-conventions.md`, `10-workflow.md`, `11-model-routing.md`, `12-context-budget.md`. Activated path-scoped rules: `20-security.md` (*.js, *.ts, *.py, *.env), `21-docs.md` (*.md, docs/**/*), `22-backend.md` (src/api/**/*, src/db/**/*).
 
 ## Do NOT
 
@@ -45,3 +45,4 @@ Rule files in `.kilo/rules/` may have YAML frontmatter `paths:` to scope them to
 - **Do not refactor unrelated code.**
 - **Do not leave debug logs, TODO comments, or commented-out code.**
 - **Do not skip linting, type-checking, or tests.** Work is not done until all three pass. After 2 failed fix attempts, escalate.
+- **Do not auto-escalate to V4 Pro.** Escalation requires a human decision.

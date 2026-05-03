@@ -34,6 +34,8 @@ A minimal, local-first agentic development template for [Kilo Code](https://kilo
     └── rules/
         ├── 00-conventions.md       # Coding standards (loaded first)
         ├── 10-workflow.md          # Dev process with verification gates
+        ├── 11-model-routing.md     # Cost-conscious model allocation (V4 Flash default, V4 Pro escalation only)
+        ├── 12-context-budget.md    # Efficient context-loading flow to reduce token waste
         ├── 20-security.md          # Secrets, input validation, least privilege
         ├── 21-docs.md              # Don't create docs unasked, keep docs in sync
         └── 22-backend.md           # REST conventions, error handling, input validation
@@ -73,7 +75,7 @@ Read-only agent for code explanation, research, and technical questions. Uses V4
 ## Design Decisions
 
 - **Read-only Ask** — Explicit tool boundaries with anti-workaround rules. Uses V4 Flash because Q&A doesn't require deep reasoning.
-- **Model tier strategy** — V4 Pro for architecture (plan), V4 Flash for everything else. If Flash fails twice, the code agent reports the failure — switching to Pro is a human decision.
+- **Model tier strategy** — V4 Pro reserved for architecture (plan) and deliberate human-approved escalation only. V4 Flash handles all normal implementation, review, debugging, and mechanical work. Context budget rules prevent wasteful token consumption.
 - **JSONC config** — `kilo.jsonc` supports comments, making the config self-documenting.
 - **Numbered rules** — `00-conventions.md` and `10-workflow.md` load in predictable order.
 - **Read-only reviewer** — Reviewer has `edit: deny` and `bash: ask`. Cannot accidentally modify code.
@@ -119,6 +121,6 @@ Checks: `kilo.jsonc` validity, agent frontmatter, cross-references between confi
 ## Philosophy
 
 - **Local-first** — Everything lives in your repo. No external services beyond the LLM API.
-- **Minimal** — Seven focused agents, one skill stub, two base rules, three path-scoped rules, five commands. No frameworks, no abstractions.
+- **Minimal** — Seven focused agents, one skill stub, four base rules, three path-scoped rules, five commands. No frameworks, no abstractions.
 - **Verified** — Every phase has a non-negotiable quality gate. Nothing ships unverified.
 - **Convention over configuration** — Follow existing patterns. Don't invent new ones without reason.

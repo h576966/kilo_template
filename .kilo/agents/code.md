@@ -37,7 +37,7 @@ Before reporting completion, you MUST:
 
 ## Handoff
 
-After 2 failed attempts to fix the same issue — or if a plan step seems wrong or incomplete — stop trying the same approach. Before showing the options, log the event: run `node scripts/log-event.mjs escalation_prompted code fail "<brief reason>"` via bash. Then use the `question` tool to ask:
+After 2 failed attempts to fix the same issue — or if a plan step seems wrong or incomplete — stop trying the same approach. Also escalate if the task meets any V4 Pro trigger defined in the model routing rules (5+ files, public API changes, auth/security, etc.). Before showing the options, log the event: run `node scripts/log-event.mjs escalation_prompted code fail "<brief reason>"` via bash. Then use the `question` tool to ask:
 
 - **Continue with V4 Pro** — escalate to `deepseek/deepseek-v4-pro` for another attempt
 - **Continue with V4 Pro + message** — same, with a custom instruction from the user
