@@ -10,10 +10,10 @@
    - +1 if requirements remain ambiguous after one clarification/exploration pass
    - +1 if there was a prior failed implementation attempt
 3. Routing:
-   - Score 0-2: use **plan** (V4 Flash).
-   - Score >= 3: use **pro-plan** (V4 Pro).
-   - High-risk paths may use **pro-plan** immediately: credential handling, access-control, payment logic, migrations, deployment, data loss, irreversible operations, or architecture-heavy changes.
-4. The plan agent produces a structured plan.
+   - Score 0-2: continue with **plan** (V4 Flash).
+   - Score >= 3: stop and manually rerun planning with V4 Pro using the compact handoff.
+   - High-risk paths may trigger a manual V4 Pro rerun immediately: credential handling, access-control, payment logic, migrations, deployment, data loss, irreversible operations, or architecture-heavy changes.
+4. The plan agent produces either a structured plan or a compact V4 Pro handoff.
 5. Review the plan before approving.
 6. **Gate:** All implementation steps are specific enough to execute without ambiguity.
 
